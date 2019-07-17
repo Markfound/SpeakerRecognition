@@ -24,20 +24,16 @@ speakers = [fname.split("\\")[-1].split(".gmm")[0] for fname
 
 # Read the test directory and get the list of test audio files
 for path in file_paths:
-
     path = path.strip()
     print
     path
     sr, audio = read(source + path)
     vector = extract_features(audio, sr)
-
     log_likelihood = np.zeros(len(models))
-
     for i in range(len(models)):
         gmm = models[i]  # checking with each model one by one
         scores = np.array(gmm.score(vector))
         log_likelihood[i] = scores.sum()
-
     winner = np.argmax(log_likelihood)
     print
     "\tdetected as - ", speakers[winner]
